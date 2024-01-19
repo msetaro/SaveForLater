@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _reminderIntController = TextEditingController();
 
   Database db = Database();
+  String chosenEmoji = "";
 
   @override
   void initState()
@@ -67,7 +70,14 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
+  String randEmoji() {
+    List emojis = ['🥃', '🥾', '🎸', '🎮', '👠', '👗', '💍', '🛼', '🎟️', '🎧', '🎷', '📱', '💻', '🛍️'];
+    var random = Random();
+    return emojis[random.nextInt(emojis.length)];
+  }
+
   void createNewItem() {
+    chosenEmoji = randEmoji();
     showDialog(
       context: context, 
       builder: (context) {
@@ -87,9 +97,9 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 // emoji picker -- need to pick random emoji
-                const Text('🩷',
+                Text(chosenEmoji,
                   style: 
-                  TextStyle(fontSize: 50)
+                  const TextStyle(fontSize: 50)
                 ),
 
                 const SizedBox(height: 20),

@@ -5,9 +5,9 @@ import 'package:save_for_later/util/tile_model.dart';
 
 void main() async {
   await Hive.initFlutter();
-
   Hive.registerAdapter(TileModelAdapter());
   await Hive.openBox("mybox");
+
   runApp(const MyApp());
 }
 
