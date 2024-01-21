@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 part "tile_model.g.dart";
@@ -16,6 +18,9 @@ class TileModel extends HiveObject {
 
   @HiveField(3)
   final int daysTillNotification;
+
+  @HiveField(4)
+  final int id = Random().nextInt(99999999);
 
   TileModel({
     required this.emoji,

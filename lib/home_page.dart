@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,20 +41,23 @@ class _HomePageState extends State<HomePage> {
 
   deleteItemFromList(int index)
   {
+    AwesomeNotifications().cancel(db.storage.elementAt(index).id);
+    
     setState(() {
       db.storage.removeAt(index);
     });
+
     db.updateDataAndStore();
   }
 
 
   void onCancelPressed()
   {
+    Navigator.of(context).pop();
     _itemNameController.clear();
     _linkController.clear();
     _reminderIntController.clear();
     _emojiPickerController.clear();
-    Navigator.of(context).pop();
   }
 
   void onSavePressed() 
@@ -61,16 +65,29 @@ class _HomePageState extends State<HomePage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    
-    // add that data to a new ForLaterTile
-    setState(() {
-          db.storage.add(
-          TileModel(
+
+    var toSave = TileModel(
             emoji: _emojiPickerController.text, 
             customName: _itemNameController.text, 
             linkToProduct: _linkController.text, 
             daysTillNotification: int.parse(_reminderIntController.text)
-          )
+          );
+
+    // schedule notification
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: toSave.id, 
+        channelKey: "main_channel",
+        title: "Still interested in buying ${_itemNameController.text} ${_emojiPickerController.text}?",
+        body: "Tap here to open the link to purchase"
+      ),
+      schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
+    );
+
+    // add that data to a new ForLaterTile
+    setState(() {
+          db.storage.add(
+          toSave
         );
         _itemNameController.clear();
         _linkController.clear();
@@ -110,13 +127,12 @@ class _HomePageState extends State<HomePage> {
             
                   Form(
                     key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(children: [                  // emoji picker -- need to pick random emoji
                   TextFormField(
                     controller: _emojiPickerController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'This field is required.';
+                        return 'This field is required and only accepts emojis.';
                       }
                     },
                     style: const TextStyle(fontSize: 50),
@@ -216,7 +232,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: createNewItem,
-        child: const Icon(Icons.add)),
+        child: const Icon(Icons.notification_add)),
 
       backgroundColor: Colors.grey[200],
 
@@ -243,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 40),
 
                   Text(
-                    "To add a new item, tap the '+' icon below ⬇️",
+                    "To add a new item, tap the button below ⬇️",
                     style: TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),  
