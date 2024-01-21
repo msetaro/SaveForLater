@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _linkController = TextEditingController();
   final TextEditingController _reminderIntController = TextEditingController();
   final TextEditingController _emojiPickerController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Database db = Database();
   String chosenEmoji = "";
@@ -57,6 +58,10 @@ class _HomePageState extends State<HomePage> {
 
   void onSavePressed() 
   {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    
     // add that data to a new ForLaterTile
     setState(() {
           db.storage.add(
@@ -91,7 +96,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           content: SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height * .70,
+              height: MediaQuery.of(context).size.height * .75,
               width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
@@ -103,9 +108,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
             
-                  // emoji picker -- need to pick random emoji
-                  TextField(
+                  Form(
+                    key: _formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(children: [                  // emoji picker -- need to pick random emoji
+                  TextFormField(
                     controller: _emojiPickerController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required.';
+                      }
+                    },
                     style: const TextStyle(fontSize: 50),
                     keyboardType: TextInputType.text,
                     maxLength: 1,
@@ -121,7 +134,12 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 20),
             
                   // Item name
-                  TextField(
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required.';
+                      }
+                    },
                     controller: _itemNameController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -132,7 +150,12 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 20),
             
                   // Link
-                  TextField(
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required.';
+                      }
+                    },
                     controller: _linkController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -144,14 +167,19 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 20),
             
                   // Remind in n days
-                  TextField(
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required.';
+                      }
+                    },
                     controller: _reminderIntController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Remind me in (days)"
                     ),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),
+                  ),],)),
             
                   const SizedBox(height: 80),
             
