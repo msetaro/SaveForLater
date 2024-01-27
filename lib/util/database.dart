@@ -11,8 +11,8 @@ class Database {
   void createInitialData()
   {
     storage = [
-      TileModel(emoji: '🥾', customName: "Boots", linkToProduct: "google.com", daysTillNotification: 30),
-      TileModel(emoji: '🥃', customName: "Whiskey", linkToProduct: "google.com", daysTillNotification: 20)
+      TileModel(emoji: '🥾', customName: "Boots", linkToProduct: "google.com", inputNotificationDate: 20, daysTillNotification: 30, creationTime: DateTime.now()),
+      TileModel(emoji: '🥃', customName: "Whiskey", linkToProduct: "google.com", inputNotificationDate: 20, daysTillNotification: 20, creationTime: DateTime.now())
     ];
   }
 

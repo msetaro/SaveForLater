@@ -20,14 +20,16 @@ class TileModelAdapter extends TypeAdapter<TileModel> {
       emoji: fields[0] as String,
       customName: fields[1] as String,
       linkToProduct: fields[2] as String,
-      daysTillNotification: fields[3] as int,
+      inputNotificationDate: fields[3] as int,
+      daysTillNotification: fields[4] as int,
+      creationTime: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, TileModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.emoji)
       ..writeByte(1)
@@ -35,7 +37,13 @@ class TileModelAdapter extends TypeAdapter<TileModel> {
       ..writeByte(2)
       ..write(obj.linkToProduct)
       ..writeByte(3)
-      ..write(obj.daysTillNotification);
+      ..write(obj.inputNotificationDate)
+      ..writeByte(4)
+      ..write(obj.daysTillNotification)
+      ..writeByte(5)
+      ..write(obj.id)
+      ..writeByte(6)
+      ..write(obj.creationTime);
   }
 
   @override

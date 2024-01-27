@@ -8,11 +8,13 @@ class ForLaterTile extends StatelessWidget {
 
   TileModel model;
   Function(BuildContext?) deleteItem;
+  void Function() updateItem;
 
   ForLaterTile({
     super.key,
     required this.model,
-    required this.deleteItem
+    required this.deleteItem,
+    required this.updateItem,
   });
 
 
@@ -32,38 +34,41 @@ class ForLaterTile extends StatelessWidget {
             )
           ]
         ),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            ),
-          child: Row(
-            children: [
-              const SizedBox(width: 20,),
-        
-              // Emoji
-              Text(model.emoji,
-                style: 
-                const TextStyle(fontSize: 50)
+        child: GestureDetector(
+          onTap: updateItem,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
               ),
-        
-              const SizedBox(width: 20.0),
-        
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                textDirection: TextDirection.ltr,
-                children: [
-                  Text(model.customName, 
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
-                  ),),
-        
-                  Text("⏰ ${model.daysTillNotification} days"),
-                ],
-              )
-            ],
+            child: Row(
+              children: [
+                const SizedBox(width: 20,),
+          
+                // Emoji
+                Text(model.emoji,
+                  style: 
+                  const TextStyle(fontSize: 50)
+                ),
+          
+                const SizedBox(width: 20.0),
+          
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    Text(model.customName, 
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    ),),
+          
+                    Text("⏰ ${model.daysTillNotification} days"),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

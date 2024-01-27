@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final myBox = Hive.box("mybox");
   final TextEditingController _itemNameController = TextEditingController();
   final TextEditingController _linkController = TextEditingController();
@@ -29,6 +29,27 @@ class _HomePageState extends State<HomePage> {
   Database db = Database();
   String chosenEmoji = "";
 
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) 
+  {
+    // This method is called when the app lifecycle state changes
+    if (state == AppLifecycleState.resumed) {
+      // update all timestamps on displayed cards
+      for(var card in db.storage)
+      {
+        var diff = card.creationTime.difference(DateTime.now());
+
+        if(diff.inDays > 0)
+        {
+          setState(() {
+            card.daysTillNotification -= diff.inDays;
+          });
+        }
+      }
+    }
+  }
+
   @override
   void initState()
   {
@@ -36,7 +57,14 @@ class _HomePageState extends State<HomePage> {
     {
       db.loadDataFromStorage();
     }
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   deleteItemFromList(int index)
@@ -60,17 +88,25 @@ class _HomePageState extends State<HomePage> {
     _emojiPickerController.clear();
   }
 
-  void onSavePressed() 
+  void onSavePressed(bool updateItem, int index) 
   {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    var toSave = TileModel(
+    if(updateItem)
+    {
+      // delete existing item
+      deleteItemFromList(index);
+    }
+
+        var toSave = TileModel(
             emoji: _emojiPickerController.text, 
             customName: _itemNameController.text, 
             linkToProduct: _linkController.text, 
-            daysTillNotification: int.parse(_reminderIntController.text)
+            inputNotificationDate: int.parse(_reminderIntController.text),
+            daysTillNotification: int.parse(_reminderIntController.text),
+            creationTime: DateTime.now()
           );
 
     // schedule notification
@@ -103,8 +139,8 @@ class _HomePageState extends State<HomePage> {
     return emojis[random.nextInt(emojis.length)];
   }
 
-  void createNewItem() {
-    _emojiPickerController.text = randEmoji();
+  void showCrudPopup(bool updateItem, [int index = 0]) {
+  
     showDialog(
       context: context, 
       barrierDismissible: false,
@@ -212,7 +248,7 @@ class _HomePageState extends State<HomePage> {
             
                   // Save
                   MaterialButton(
-                    onPressed: onSavePressed,
+                    onPressed: () => onSavePressed(updateItem, index),
                     minWidth: 200,
                     height: 50,
                     color: Colors.blue,
@@ -225,7 +261,22 @@ class _HomePageState extends State<HomePage> {
         );
       }
     );
+  }
+  
+  void createNewItem() {
+    _emojiPickerController.text = randEmoji();
+    showCrudPopup(false);
   } 
+
+  void updateItem(int index) {
+
+    _emojiPickerController.text = db.storage[index].emoji;
+    _itemNameController.text = db.storage[index].customName;
+    _linkController.text = db.storage[index].linkToProduct;
+    _reminderIntController.text = db.storage[index].daysTillNotification.toString();
+
+    showCrudPopup(true, index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -272,6 +323,7 @@ class _HomePageState extends State<HomePage> {
             return ForLaterTile(
               model: db.storage[index], 
               deleteItem: (context) => deleteItemFromList(index),
+              updateItem: () => updateItem(index),
             );
           },
       ),
