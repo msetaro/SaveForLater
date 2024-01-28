@@ -73,7 +73,7 @@ flutter:
     - android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
     - android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
     - android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-    - ios/Runner/Assets.xcassets/AppIcon.appiconset
+    - ios/Runner/Assets.xcassets/AppIcon.appiconset/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
