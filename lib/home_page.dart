@@ -101,10 +101,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       deleteItemFromList(index);
     }
 
+    //add https if its not there
+    var finalUrl = _linkController.text;
+    if(!finalUrl.contains('https://www.') || !finalUrl.contains('http://www.'))
+    {
+      finalUrl = "https://${_linkController.text}";
+    }
+
         var toSave = TileModel(
             emoji: _emojiPickerController.text, 
             customName: _itemNameController.text, 
-            linkToProduct: _linkController.text, 
+            linkToProduct: finalUrl, 
             inputNotificationDate: int.parse(_reminderIntController.text),
             daysTillNotification: int.parse(_reminderIntController.text),
             creationTime: DateTime.now()
@@ -116,7 +123,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         id: toSave.id, 
         channelKey: "main_channel",
         title: "Still interested in buying ${_itemNameController.text} ${_emojiPickerController.text}?",
-        body: "Tap here to open the link to purchase"
       ),
       schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
     );

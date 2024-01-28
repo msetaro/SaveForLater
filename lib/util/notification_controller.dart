@@ -24,8 +24,5 @@ class NotificationController {
   @pragma("vm:entry-point")
   static Future <void> onActionReceivedMethod(ReceivedAction receivedAction) async {
     // get the notification that fired
-
-    // open the link to it
-    await launchUrl(Uri.parse("http://www.google.com"));
   }
 }

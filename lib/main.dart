@@ -11,7 +11,7 @@ void main() async {
   await Hive.openBox("mybox");
 
   await AwesomeNotifications().initialize(
-    null, //TODO: Change to icon path
+    null,
     [ NotificationChannel(
       channelGroupKey: "main_channel_group",
       channelKey: 'main_channel', 
