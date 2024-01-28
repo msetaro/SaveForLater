@@ -10,6 +10,7 @@ import 'package:save_for_later/util/for_later_tile.dart';
 import 'package:save_for_later/util/tile_model.dart';
 
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -268,14 +269,49 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     showCrudPopup(false);
   } 
 
-  void updateItem(int index) {
+  void updateItem(int index) async {
 
-    _emojiPickerController.text = db.storage[index].emoji;
-    _itemNameController.text = db.storage[index].customName;
-    _linkController.text = db.storage[index].linkToProduct;
-    _reminderIntController.text = db.storage[index].daysTillNotification.toString();
+    if(db.storage[index].daysTillNotification < 1)
+    {
+      try {
+        // open link instead
+        Uri url = Uri.parse(db.storage[index].linkToProduct);
+        var res = await launchUrl(url);
 
-    showCrudPopup(true, index);
+        if(!res){ throw Exception(); }
+      } 
+      on Exception catch(_)
+      {
+        // show alert to user
+        showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content: const Text('Sorry! There was an error opening the URL 😅'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        // Close the dialog
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                );
+              }
+            );
+      }
+    }
+    else 
+    {
+      _emojiPickerController.text = db.storage[index].emoji;
+      _itemNameController.text = db.storage[index].customName;
+      _linkController.text = db.storage[index].linkToProduct;
+      _reminderIntController.text = db.storage[index].daysTillNotification.toString();
+
+      showCrudPopup(true, index);
+    }
   }
 
   @override
@@ -288,8 +324,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       backgroundColor: Colors.grey[200],
 
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        title: const Text("Save For Later",
+        backgroundColor: const Color.fromARGB(255, 150, 20, 11),
+        title: const Text("⏰ Save For Later 💸",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         elevation: 0,
       ),

@@ -64,7 +64,9 @@ class ForLaterTile extends StatelessWidget {
                         fontSize: 20
                     ),),
           
-                    Text("⏰ ${model.daysTillNotification} days"),
+                    model.daysTillNotification < 1 ? 
+                      const Text("Times up! ⏰ Ready to purchase? 🛒")
+                      : Text("⏰ ${model.daysTillNotification} days"),
                   ],
                 )
               ],
