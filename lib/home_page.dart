@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         channelKey: "main_channel",
         title: "Still interested in buying ${_itemNameController.text} ${_emojiPickerController.text}?",
       ),
-      // schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
+      schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
     );
 
     // add that data to a new ForLaterTile
