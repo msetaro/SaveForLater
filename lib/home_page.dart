@@ -5,9 +5,9 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:save_for_later/util/database.dart';
-import 'package:save_for_later/util/for_later_tile.dart';
-import 'package:save_for_later/util/tile_model.dart';
+import 'package:for_a_rainy_day/util/database.dart';
+import 'package:for_a_rainy_day/util/for_later_tile.dart';
+import 'package:for_a_rainy_day/util/tile_model.dart';
 
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:url_launcher/url_launcher.dart';
@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     db.updateDataAndStore();
   }
 
-
   void onCancelPressed()
   {
     Navigator.of(context).pop();
@@ -124,7 +123,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         channelKey: "main_channel",
         title: "Still interested in buying ${_itemNameController.text} ${_emojiPickerController.text}?",
       ),
-      schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
+      // schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
     );
 
     // add that data to a new ForLaterTile
@@ -331,7 +330,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 150, 20, 11),
-        title: const Text("⏰ Save For Later 💸",
+        title: const Text("⏰ Your reminders 💸",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
         elevation: 0,
       ),
