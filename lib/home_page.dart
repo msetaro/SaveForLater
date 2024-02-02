@@ -110,14 +110,24 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       finalUrl = "https://${_linkController.text}";
     }
 
-        var toSave = TileModel(
-            emoji: _emojiPickerController.text, 
-            customName: _itemNameController.text, 
-            linkToProduct: finalUrl, 
-            inputNotificationDate: int.parse(_reminderIntController.text),
-            daysTillNotification: int.parse(_reminderIntController.text),
-            creationTime: DateTime.now()
-          );
+    var toSave = TileModel(
+        emoji: _emojiPickerController.text, 
+        customName: _itemNameController.text, 
+        linkToProduct: finalUrl, 
+        inputNotificationDate: int.parse(_reminderIntController.text),
+        daysTillNotification: int.parse(_reminderIntController.text),
+        creationTime: DateTime.now()
+      );
+
+    // schedule notification
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: toSave.id, 
+        channelKey: "main_channel",
+        title: "Still interested in buying ${_itemNameController.text} ${_emojiPickerController.text}?",
+      ),
+      schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
+    );
 
     // add that data to a new ForLaterTile
     setState(() {
