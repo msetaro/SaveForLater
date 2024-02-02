@@ -163,8 +163,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           backgroundColor: Colors.white,
           content: SingleChildScrollView(
             child: Container(
-              height: MediaQuery.of(context).size.height * .75,
-              width: MediaQuery.of(context).size.width,
               child: Column(
                 children: [
                   const Text(
@@ -247,7 +245,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),],)),
             
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 20),
             
                   // Cancel
                   MaterialButton(
