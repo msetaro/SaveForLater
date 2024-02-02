@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_slidable/flutter_slidable.dart";
 import "package:hive_flutter/hive_flutter.dart";
-import "package:for_a_rainy_day/util/tile_model.dart";
+import "package:spendshield/util/tile_model.dart";
 
 @HiveType(typeId: 0)
 class ForLaterTile extends StatelessWidget {

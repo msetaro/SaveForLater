@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     
     <application
-        android:label="save_for_later"
+        android:label="SpendShield"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -5,9 +5,9 @@ import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:for_a_rainy_day/util/database.dart';
-import 'package:for_a_rainy_day/util/for_later_tile.dart';
-import 'package:for_a_rainy_day/util/tile_model.dart';
+import 'package:spendshield/util/database.dart';
+import 'package:spendshield/util/for_later_tile.dart';
+import 'package:spendshield/util/tile_model.dart';
 
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:url_launcher/url_launcher.dart';

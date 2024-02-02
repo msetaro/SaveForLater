@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:for_a_rainy_day/util/tile_model.dart';
+import 'package:spendshield/util/tile_model.dart';
 
 class Database {
 

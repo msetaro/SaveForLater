@@ -478,7 +478,7 @@
 				DEVELOPMENT_TEAM = 6HSW8J76Y3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "for a rainy day";
+				INFOPLIST_KEY_CFBundleDisplayName = SpendShield;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -662,7 +662,7 @@
 				DEVELOPMENT_TEAM = 6HSW8J76Y3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "for a rainy day";
+				INFOPLIST_KEY_CFBundleDisplayName = SpendShield;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -690,7 +690,7 @@
 				DEVELOPMENT_TEAM = 6HSW8J76Y3;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "for a rainy day";
+				INFOPLIST_KEY_CFBundleDisplayName = SpendShield;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
