@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     // This method is called when the app lifecycle state changes
     if (state == AppLifecycleState.resumed) {
       // update all timestamps on displayed cards
-      for(var card in db.storage)
+      for(TileModel card in db.storage)
       {
         var diff = card.creationTime.difference(DateTime.now());
 
@@ -46,6 +46,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           setState(() {
             card.daysTillNotification -= diff.inDays;
           });
+
+          // save to db
+          db.updateDataAndStore();
         }
       }
     }
@@ -116,21 +119,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             creationTime: DateTime.now()
           );
 
-    // schedule notification
-    AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: toSave.id, 
-        channelKey: "main_channel",
-        title: "Still interested in buying ${_itemNameController.text} ${_emojiPickerController.text}?",
-      ),
-      schedule: NotificationCalendar.fromDate(date: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text))))
-    );
-
     // add that data to a new ForLaterTile
     setState(() {
-          db.storage.add(
-          toSave
-        );
+        if(updateItem)
+        {
+          db.storage.insert(index, toSave);
+        }
+        else
+        {
+          db.storage.add(toSave);
+        }
         _itemNameController.clear();
         _linkController.clear();
         _reminderIntController.clear();
