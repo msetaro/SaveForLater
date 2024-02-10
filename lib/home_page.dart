@@ -161,122 +161,126 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       context: context, 
       barrierDismissible: false,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: SingleChildScrollView(
-            child: Container(
-              child: Column(
-                children: [
-                  const Text(
-                    "Enter a new item",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () { FocusScope.of(context).unfocus(); },
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            content: SingleChildScrollView(
+              child: Container(
+                child: Column(
+                  children: [
+                    const Text(
+                      "Enter a new item",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                      ),
                     ),
-                  ),
-            
-                  Form(
-                    key: _formKey,
-                    child: Column(children: [                  // emoji picker -- need to pick random emoji
-                  TextFormField(
-                    controller: _emojiPickerController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Required and only accepts emojis.';
-                      }
-                      return null;
-                    },
-                    style: const TextStyle(fontSize: 50),
-                    keyboardType: TextInputType.text,
-                    maxLength: 1,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none, 
-                      labelText: "Tap to change emoji",
-                      floatingLabelAlignment: FloatingLabelAlignment.center,
-                      alignLabelWithHint: true
+              
+                    Form(
+                      key: _formKey,
+                      child: Column(children: [                  // emoji picker -- need to pick random emoji
+                    TextFormField(
+                      controller: _emojiPickerController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required and only accepts emojis.';
+                        }
+                        return null;
+                      },
+                      style: const TextStyle(fontSize: 50),
+                      keyboardType: TextInputType.text,
+                      maxLength: 1,
+                      textAlign: TextAlign.center,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none, 
+                        labelText: "Tap to change emoji",
+                        floatingLabelAlignment: FloatingLabelAlignment.center,
+                        alignLabelWithHint: true
+                      ),
+                      inputFormatters: [FilteringTextInputFormatter.allow(
+                        RegExp(
+                          r'[\u{1F000}-\u{1F9EF}\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]',
+                           unicode: true)),],
                     ),
-                    inputFormatters: [FilteringTextInputFormatter.allow(
-                      RegExp(
-                        r'[\u{1F000}-\u{1F9EF}\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]',
-                         unicode: true)),],
-                  ),
-            
-
-                  const SizedBox(height: 20),
-            
-                  // Item name
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This field is required.';
-                      }
-                    },
-                    controller: _itemNameController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Item name"
+              
+          
+                    const SizedBox(height: 20),
+              
+                    // Item name
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This field is required.';
+                        }
+                      },
+                      controller: _itemNameController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Item name"
+                      ),
                     ),
-                  ),
-            
-                  const SizedBox(height: 20),
-            
-                  // Link
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This field is required.';
-                      }
-                    },
-                    controller: _linkController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Link to item"
+              
+                    const SizedBox(height: 20),
+              
+                    // Link
+                    TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This field is required.';
+                        }
+                      },
+                      controller: _linkController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Link to item"
+                      ),
                     ),
-                  ),
-            
-            
-                  const SizedBox(height: 20),
-            
-                  // Remind in n days
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'This field is required.';
-                      }
-                    },
-                    controller: _reminderIntController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Remind me in (days)"
+              
+              
+                    const SizedBox(height: 20),
+              
+                    // Remind in n days
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'This field is required.';
+                        }
+                      },
+                      controller: _reminderIntController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Remind me in (days)"
+                      ),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),],)),
+              
+                    const SizedBox(height: 20),
+              
+                    // Cancel
+                    MaterialButton(
+                      onPressed: onCancelPressed,
+                      minWidth: 200,
+                      height: 50,
+                      color: Colors.red,
+                      child: const Text("Cancel")
                     ),
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  ),],)),
-            
-                  const SizedBox(height: 20),
-            
-                  // Cancel
-                  MaterialButton(
-                    onPressed: onCancelPressed,
-                    minWidth: 200,
-                    height: 50,
-                    color: Colors.red,
-                    child: const Text("Cancel")
-                  ),
-            
-                  const SizedBox(height: 17),
-            
-                  // Save
-                  MaterialButton(
-                    onPressed: () => onSavePressed(updateItem, index),
-                    minWidth: 200,
-                    height: 50,
-                    color: Colors.blue,
-                    child: const Text("Save")
-                  ),
-            
-                ]),
+              
+                    const SizedBox(height: 17),
+              
+                    // Save
+                    MaterialButton(
+                      onPressed: () => onSavePressed(updateItem, index),
+                      minWidth: 200,
+                      height: 50,
+                      color: Colors.blue,
+                      child: const Text("Save")
+                    ),
+              
+                  ]),
+              ),
             ),
           ),
         );
