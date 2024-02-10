@@ -28,6 +28,9 @@ class TileModel extends HiveObject {
   @HiveField(6)
   final DateTime creationTime;
 
+  @HiveField(7)
+  final DateTime notificationDate;
+
   TileModel({
     required this.emoji,
     required this.customName,
@@ -35,7 +38,9 @@ class TileModel extends HiveObject {
     required this.inputNotificationDate,
     required int daysTillNotification, // Update the parameter
     required this.creationTime,
-  }) : _daysTillNotification = daysTillNotification; // Initialize the field in the constructor
+    required this.notificationDate
+  }) : _daysTillNotification = daysTillNotification;
+
 
   // Setter for daysTillNotification
   set daysTillNotification(int value) {

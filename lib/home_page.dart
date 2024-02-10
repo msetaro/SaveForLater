@@ -39,17 +39,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       // update all timestamps on displayed cards
       for(TileModel card in db.storage)
       {
-        var diff = card.creationTime.difference(DateTime.now());
+        int diffDays = card.notificationDate.difference(DateTime.now()).inDays + 1;
+        
+        int toSubtract = diffDays - card.daysTillNotification;
 
-        if(diff.inDays > 0)
-        {
-          setState(() {
-            card.daysTillNotification -= diff.inDays;
-          });
+        setState(() {
+          card.daysTillNotification -= toSubtract;
+        });
 
-          // save to db
-          db.updateDataAndStore();
-        }
+        // save to db
+        db.updateDataAndStore();
       }
     }
   }
@@ -77,6 +76,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     
     setState(() {
       db.storage.removeAt(index);
+      db.storage.sort((a, b) => a.daysTillNotification.compareTo(b.daysTillNotification));
     });
 
     db.updateDataAndStore();
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     //add https if its not there
     var finalUrl = _linkController.text;
-    if(!finalUrl.contains('https://www.') || !finalUrl.contains('http://www.'))
+    if(!finalUrl.contains('https://') && !finalUrl.contains('http://'))
     {
       finalUrl = "https://${_linkController.text}";
     }
@@ -116,7 +116,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         linkToProduct: finalUrl, 
         inputNotificationDate: int.parse(_reminderIntController.text),
         daysTillNotification: int.parse(_reminderIntController.text),
-        creationTime: DateTime.now()
+        creationTime: DateTime.now(),
+        notificationDate: DateTime.now().add(Duration(days: int.parse(_reminderIntController.text)))
       );
 
     // schedule notification
@@ -139,6 +140,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         {
           db.storage.add(toSave);
         }
+        db.storage.sort((a, b) => a.daysTillNotification.compareTo(b.daysTillNotification));
         _itemNameController.clear();
         _linkController.clear();
         _reminderIntController.clear();
@@ -232,6 +234,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             
                   // Remind in n days
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'This field is required.';
