@@ -182,17 +182,23 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     controller: _emojiPickerController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'This field is required and only accepts emojis.';
+                        return 'Required and only accepts emojis.';
                       }
+                      return null;
                     },
                     style: const TextStyle(fontSize: 50),
                     keyboardType: TextInputType.text,
                     maxLength: 1,
                     textAlign: TextAlign.center,
-                    decoration: const InputDecoration(border: InputBorder.none),
+                    decoration: const InputDecoration(
+                      border: InputBorder.none, 
+                      labelText: "Tap to change emoji",
+                      floatingLabelAlignment: FloatingLabelAlignment.center,
+                      alignLabelWithHint: true
+                    ),
                     inputFormatters: [FilteringTextInputFormatter.allow(
                       RegExp(
-                        r'[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]',
+                        r'[\u{1F000}-\u{1F9EF}\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]',
                          unicode: true)),],
                   ),
             
