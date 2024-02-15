@@ -39,12 +39,29 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       // update all timestamps on displayed cards
       for(TileModel card in db.storage)
       {
-        int diffDays = card.notificationDate.difference(DateTime.now()).inDays + 1;
+        Duration duration = card.notificationDate.difference(DateTime.now());
+
+        int diffDays = duration.inDays;
         
-        int toSubtract = diffDays - card.daysTillNotification;
+        int newDayNumber = 0;
+
+        if(diffDays > 0)
+        {
+          newDayNumber = diffDays + 1;
+        }
+        else if(diffDays == 0 && duration.inMicroseconds > 0)
+        {
+          // less than 24 hours
+          newDayNumber = 1;
+        }
+        else if(diffDays == 0 && duration.inMicroseconds < 0)
+        {
+          // date has passed
+          newDayNumber = 0;
+        }
 
         setState(() {
-          card.daysTillNotification -= toSubtract;
+          card.daysTillNotification = newDayNumber;
         });
 
         // save to db
